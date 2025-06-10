@@ -94,6 +94,30 @@
             width: 100%;
             overflow: hidden;
         }
+        .tab.add-button {
+            background-color: #f5f5f5;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+        }
+        .add-menu {
+            position: absolute;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            padding: 8px 0;
+            z-index: 1000;
+        }
+        .menu-item {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+        .menu-item:hover {
+            background-color: #f5f5f5;
+        }
     </style>
 </head>
 <body>
@@ -210,6 +234,69 @@
                 tabElement.appendChild(closeButton);
                 tabBar.appendChild(tabElement);
             });
+
+            // 新增按鈕
+            const addButton = document.createElement('div');
+            addButton.className = 'tab add-button';
+            addButton.innerHTML = '+';
+            addButton.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showAddMenu(e.target);
+            });
+            tabBar.appendChild(addButton);
+        }
+
+        function showAddMenu(button) {
+            // 移除現有的選單（如果存在）
+            const existingMenu = document.getElementById('add-menu');
+            if (existingMenu) existingMenu.remove();
+
+            // 創建選單
+            const menu = document.createElement('div');
+            menu.id = 'add-menu';
+            menu.className = 'add-menu';
+            menu.style.position = 'absolute';
+            menu.style.backgroundColor = '#fff';
+            menu.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
+            menu.style.borderRadius = '4px';
+            menu.style.padding = '8px 0';
+            menu.style.zIndex = '1000';
+
+            // 從 data.json 加載選單選項
+            fetch('data.json')
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        const menuItem = document.createElement('div');
+                        menuItem.className = 'menu-item';
+                        menuItem.textContent = item.name;
+                        menuItem.style.padding = '8px 16px';
+                        menuItem.style.cursor = 'pointer';
+                        menuItem.addEventListener('click', () => {
+                            openTab(item.name, item.url);
+                            menu.remove();
+                        });
+                        menu.appendChild(menuItem);
+                    });
+
+                    // 定位選單
+                    const buttonRect = button.getBoundingClientRect();
+                    menu.style.top = `${buttonRect.bottom}px`;
+                    menu.style.left = `${buttonRect.left}px`;
+
+                    // 添加到頁面
+                    document.body.appendChild(menu);
+
+                    // 點擊外部時隱藏選單
+                    const hideMenu = (e) => {
+                        if (!menu.contains(e.target) && e.target !== button) {
+                            menu.remove();
+                            document.removeEventListener('click', hideMenu);
+                        }
+                    };
+                    document.addEventListener('click', hideMenu);
+                })
+                .catch(error => console.error('Error loading data.json:', error));
         }
     </script>
 </body>
