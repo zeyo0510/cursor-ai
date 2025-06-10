@@ -160,13 +160,26 @@
             .catch(error => console.error('Error loading data.json:', error));
 
         function openTab(name, url) {
-            // Check if tab already exists
-            const existingTab = tabs.find(tab => tab.url === url);
-            if (existingTab) {
-                setActiveTab(existingTab.id);
-                return;
+            // Check if there is an active tab
+            if (activeTabId) {
+                const activeTab = tabs.find(tab => tab.id === activeTabId);
+                if (activeTab) {
+                    // Update the active tab's name and URL
+                    activeTab.name = name;
+                    activeTab.url = url;
+
+                    // Update the iframe's src
+                    const activeFrame = document.getElementById(`frame-${activeTabId}`);
+                    if (activeFrame) {
+                        activeFrame.src = url;
+                    }
+
+                    renderTabs();
+                    return;
+                }
             }
 
+            // If no active tab, create a new tab
             const tabId = Date.now().toString();
             tabs.push({ id: tabId, name, url });
             renderTabs();
@@ -273,7 +286,11 @@
                         menuItem.style.padding = '8px 16px';
                         menuItem.style.cursor = 'pointer';
                         menuItem.addEventListener('click', () => {
-                            openTab(item.name, item.url);
+                            // Always create a new tab when clicking a menu item
+                            const tabId = Date.now().toString();
+                            tabs.push({ id: tabId, name: item.name, url: item.url });
+                            renderTabs();
+                            setActiveTab(tabId);
                             menu.remove();
                         });
                         menu.appendChild(menuItem);
