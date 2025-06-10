@@ -2,5 +2,6 @@
   {"category": "Dashboard", "name": "Dashboard", "url": "./my-dashboard/index.html", "icon": "dashboard"},
   {"category": "Game"     , "name": "Snake", "url": "./game-snake/index.html", "icon": "gamepad"},
   {"category": "Game"     , "name": "Tic-Tac-Toe", "url": "./game-tictactoe/index.html", "icon": "gamepad"},
-  {"category": "Game"     , "name": "Reversi", "url": "./game-reversi/index.html", "icon": "gamepad"}
+  {"category": "Game"     , "name": "Reversi", "url": "./game-reversi/index.html", "icon": "gamepad"},
+  {"category": "Control"  , "name": "Piano", "url": "./control-piano/index.html", "icon": "gamepad"}
 ]
