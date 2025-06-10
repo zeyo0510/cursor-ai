@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>超連結框架</title>
+    <title>Notion-like Design</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             height: 100vh;
+            background-color: #f5f5f5;
         }
         .sidebar {
-            width: 200px;
-            background-color: #f4f4f4;
+            width: 240px;
+            background-color: #2d2d2d;
+            color: #fff;
             padding: 20px;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
         }
@@ -27,23 +29,70 @@
         }
         .sidebar a {
             text-decoration: none;
-            color: #333;
-            font-weight: bold;
+            color: #fff;
+            font-weight: 500;
             display: block;
-            padding: 8px;
+            padding: 8px 12px;
             border-radius: 4px;
+            transition: background-color 0.2s;
         }
         .sidebar a:hover {
-            background-color: #ddd;
+            background-color: #3d3d3d;
         }
         .content {
             flex: 1;
-            padding: 20px;
+            padding: 0;
+            background-color: #fff;
+            margin: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
         }
         iframe {
             width: 100%;
             height: 100%;
             border: none;
+            border-radius: 8px;
+        }
+        .tab-bar {
+            display: flex;
+            background-color: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0 10px;
+            flex-shrink: 0;
+        }
+        .tab {
+            padding: 8px 12px;
+            margin-right: 4px;
+            background-color: #f5f5f5;
+            border-radius: 4px 4px 0 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .tab.active {
+            background-color: #fff;
+            border-bottom: 2px solid #2d2d2d;
+        }
+        .tab-close {
+            margin-left: 8px;
+            color: #888;
+            font-size: 14px;
+        }
+        .tab-close:hover {
+            color: #333;
+        }
+        .content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            display: none;
+        }
+        #contentFrameContainer {
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
         }
     </style>
 </head>
@@ -54,36 +103,114 @@
         </ul>
     </div>
     <div class="content">
-        <iframe id="contentFrame" src="about:blank"></iframe>
+        <div class="tab-bar" id="tabBar"></div>
+        <div id="contentFrameContainer"></div>
     </div>
     <script>
+        let tabs = [];
+        let activeTabId = null;
+
         // 讀取 data.json 並動態生成超連結
         fetch('data.json')
             .then(response => response.json())
             .then(data => {
                 const sidebar = document.querySelector('.sidebar ul');
-                sidebar.innerHTML = ''; // 清空現有內容
+                sidebar.innerHTML = '';
 
                 data.forEach(item => {
                     const li = document.createElement('li');
                     const a = document.createElement('a');
                     a.href = '#';
                     a.setAttribute('data-url', item.url);
+                    a.setAttribute('data-name', item.name);
                     a.textContent = item.name;
                     li.appendChild(a);
                     sidebar.appendChild(li);
-                });
 
-                // 重新綁定點擊事件
-                document.querySelectorAll('.sidebar a').forEach(link => {
-                    link.addEventListener('click', (e) => {
+                    a.addEventListener('click', (e) => {
                         e.preventDefault();
-                        const url = link.getAttribute('data-url');
-                        document.getElementById('contentFrame').src = url;
+                        openTab(item.name, item.url);
                     });
                 });
             })
             .catch(error => console.error('Error loading data.json:', error));
+
+        function openTab(name, url) {
+            // Check if tab already exists
+            const existingTab = tabs.find(tab => tab.url === url);
+            if (existingTab) {
+                setActiveTab(existingTab.id);
+                return;
+            }
+
+            const tabId = Date.now().toString();
+            tabs.push({ id: tabId, name, url });
+            renderTabs();
+            setActiveTab(tabId);
+        }
+
+        function setActiveTab(tabId) {
+            activeTabId = tabId;
+            const tab = tabs.find(t => t.id === tabId);
+            if (tab) {
+                // Hide all iframes first
+                document.querySelectorAll('.content-frame').forEach(frame => {
+                    frame.style.display = 'none';
+                });
+                // Show the active iframe
+                const activeFrame = document.getElementById(`frame-${tabId}`);
+                if (activeFrame) {
+                    activeFrame.style.display = 'block';
+                } else {
+                    // Create a new iframe if it doesn't exist
+                    const iframe = document.createElement('iframe');
+                    iframe.id = `frame-${tabId}`;
+                    iframe.className = 'content-frame';
+                    iframe.src = tab.url;
+                    iframe.style.display = 'block';
+                    document.getElementById('contentFrameContainer').appendChild(iframe);
+                }
+            }
+            renderTabs();
+        }
+
+        function closeTab(tabId, e) {
+            e.stopPropagation();
+            tabs = tabs.filter(tab => tab.id !== tabId);
+            const frame = document.getElementById(`frame-${tabId}`);
+            if (frame) {
+                frame.remove();
+            }
+            if (activeTabId === tabId) {
+                activeTabId = tabs.length > 0 ? tabs[0].id : null;
+                if (activeTabId) {
+                    setActiveTab(activeTabId);
+                } else {
+                    document.getElementById('contentFrameContainer').innerHTML = '';
+                }
+            }
+            renderTabs();
+        }
+
+        function renderTabs() {
+            const tabBar = document.getElementById('tabBar');
+            tabBar.innerHTML = '';
+
+            tabs.forEach(tab => {
+                const tabElement = document.createElement('div');
+                tabElement.className = `tab ${tab.id === activeTabId ? 'active' : ''}`;
+                tabElement.textContent = tab.name;
+                tabElement.addEventListener('click', () => setActiveTab(tab.id));
+
+                const closeButton = document.createElement('span');
+                closeButton.className = 'tab-close';
+                closeButton.innerHTML = '&times;';
+                closeButton.addEventListener('click', (e) => closeTab(tab.id, e));
+
+                tabElement.appendChild(closeButton);
+                tabBar.appendChild(tabElement);
+            });
+        }
     </script>
 </body>
 </html> 
