@@ -1,9 +1,9 @@
 [
-  {"category": "Home"   , "name": "Dashboard", "url": "./my-dashboard/index.html", "icon": "dashboard"},
-  {"category": "Game"   , "name": "Snake", "url": "./game-snake/index.html", "icon": "gamepad"},
-  {"category": "Game"   , "name": "Tic-Tac-Toe", "url": "./game-tictactoe/index.html", "icon": "gamepad"},
-  {"category": "Game"   , "name": "Reversi", "url": "./game-reversi/index.html", "icon": "gamepad"},
-  {"category": "Control", "name": "Piano", "url": "./control-piano/index.html", "icon": "gamepad"},
-  {"category": "AI"     , "name": "Speech-To-Text", "url": "./ai-speech-to-text/index.html", "icon": "gamepad"},
-  {"category": "Utility", "name": "Calculator", "url": "./utility-calculator/index.html", "icon": "gamepad"}
+  {"category": "Accessibility", "name": "Speech-To-Text","url": "./accessibility-speech-to-text/index.html","icon": "gamepad"},
+  {"category": "Control"      , "name": "Piano",         "url": "./control-piano/index.html",               "icon": "gamepad"},
+  {"category": "Game"         , "name": "Reversi",       "url": "./game-reversi/index.html",                "icon": "gamepad"},
+  {"category": "Game"         , "name": "Snake",         "url": "./game-snake/index.html",                  "icon": "gamepad"},
+  {"category": "Game"         , "name": "Tic-Tac-Toe",   "url": "./game-tictactoe/index.html",              "icon": "gamepad"},
+  {"category": "Home"         , "name": "Dashboard",     "url": "./my-dashboard/index.html",                "icon": "dashboard"},
+  {"category": "Utility"      , "name": "Calculator",    "url": "./utility-calculator/index.html",          "icon": "gamepad"}
 ]
