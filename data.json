@@ -7,5 +7,6 @@
   {"category": "Home"         , "name": "Dashboard",     "url": "./my-dashboard/index.html",                "icon": "dashboard"},
   {"category": "Utility"      , "name": "Calculator",    "url": "./utility-calculator/index.html",          "icon": "gamepad"},
   {"category": "Utility"      , "name": "Calendar",      "url": "./utility-calendar/index.html",            "icon": "gamepad"},
-  {"category": "Utility"      , "name": "Color-Picker",  "url": "./utility-colorpicker/index.html",         "icon": "gamepad"}
+  {"category": "Utility"      , "name": "Color-Picker",  "url": "./utility-colorpicker/index.html",         "icon": "gamepad"},
+  {"category": "Chart"        , "name": "Candlestick",   "url": "./chart-candlestick/index.html",           "icon": "gamepad"}
 ]
