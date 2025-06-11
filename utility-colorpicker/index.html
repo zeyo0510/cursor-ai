@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <title>RGB 顏色調節器</title>
+    <style>
+        .color-picker {
+            padding: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            width: 320px;
+            margin: 50px auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        #colorPreview {
+            width: 100px;
+            height: 100px;
+            border: 2px solid #333;
+            border-radius: 5px;
+            margin: 10px auto;
+            transition: background-color 0.3s;
+        }
+
+        .slider-container {
+            margin: 15px 0;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            background: #ddd;
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        #redSlider::-webkit-slider-thumb { background: #ff0000; }
+        #greenSlider::-webkit-slider-thumb { background: #00ff00; }
+        #blueSlider::-webkit-slider-thumb { background: #0000ff; }
+
+        .value-display {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="color-picker">
+        <div id="colorPreview"></div>
+        
+        <div class="slider-container">
+            <div class="value-display">
+                <span>紅</span>
+                <span id="redValue">0</span>
+            </div>
+            <input type="range" min="0" max="255" value="0" class="slider" id="redSlider">
+        </div>
+
+        <div class="slider-container">
+            <div class="value-display">
+                <span>綠</span>
+                <span id="greenValue">0</span>
+            </div>
+            <input type="range" min="0" max="255" value="0" class="slider" id="greenSlider">
+        </div>
+
+        <div class="slider-container">
+            <div class="value-display">
+                <span>藍</span>
+                <span id="blueValue">0</span>
+            </div>
+            <input type="range" min="0" max="255" value="0" class="slider" id="blueSlider">
+        </div>
+
+        <div class="color-info">
+            <p>RGB: <span id="rgbValue">0, 0, 0</span></p>
+            <p>HEX: <span id="hexValue">#000000</span></p>
+        </div>
+    </div>
+
+    <script>
+        const redSlider = document.getElementById('redSlider');
+        const greenSlider = document.getElementById('greenSlider');
+        const blueSlider = document.getElementById('blueSlider');
+        const colorPreview = document.getElementById('colorPreview');
+        const redValue = document.getElementById('redValue');
+        const greenValue = document.getElementById('greenValue');
+        const blueValue = document.getElementById('blueValue');
+        const rgbValue = document.getElementById('rgbValue');
+        const hexValue = document.getElementById('hexValue');
+
+        function updateColor() {
+            const r = parseInt(redSlider.value);
+            const g = parseInt(greenSlider.value);
+            const b = parseInt(blueSlider.value);
+            
+            // 更新顯示數值
+            redValue.textContent = r;
+            greenValue.textContent = g;
+            blueValue.textContent = b;
+            
+            // 更新顏色預覽
+            const color = `rgb(${r}, ${g}, ${b})`;
+            colorPreview.style.backgroundColor = color;
+            
+            // 更新顯示值
+            rgbValue.textContent = `${r}, ${g}, ${b}`;
+            hexValue.textContent = rgbToHex(r, g, b);
+        }
+
+        function rgbToHex(r, g, b) {
+            return '#' + [r, g, b]
+                .map(x => x.toString(16).padStart(2, '0'))
+                .join('')
+                .toUpperCase();
+        }
+
+        // 為所有滑塊添加事件監聽
+        [redSlider, greenSlider, blueSlider].forEach(slider => {
+            slider.addEventListener('input', updateColor);
+        });
+
+        // 初始化顏色
+        updateColor();
+    </script>
+</body>
+</html>
