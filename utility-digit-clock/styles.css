@@ -1,0 +1,17 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.clock {
+    color: #e94560;
+    font-size: 5rem;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(233, 69, 96, 0.5);
+    letter-spacing: 2px;
+} 

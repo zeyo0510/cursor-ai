@@ -8,5 +8,6 @@
   {"category": "Utility"      , "name": "Calculator",    "url": "./utility-calculator/index.html",          "icon": "gamepad"},
   {"category": "Utility"      , "name": "Calendar",      "url": "./utility-calendar/index.html",            "icon": "gamepad"},
   {"category": "Utility"      , "name": "Color-Picker",  "url": "./utility-colorpicker/index.html",         "icon": "gamepad"},
+  {"category": "Utility"      , "name": "Digit-Clock",   "url": "./utility-digit-clock/index.html",                 "icon": "gamepad"},
   {"category": "Chart"        , "name": "Candlestick",   "url": "./chart-candlestick/index.html",           "icon": "gamepad"}
 ]
