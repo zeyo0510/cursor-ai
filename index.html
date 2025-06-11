@@ -201,19 +201,44 @@
                 const sidebar = document.querySelector('.sidebar ul');
                 sidebar.innerHTML = '';
 
+                // Group items by category
+                const groupedData = {};
                 data.forEach(item => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = '#';
-                    a.setAttribute('data-url', item.url);
-                    a.setAttribute('data-name', item.name);
-                    a.textContent = item.name;
-                    li.appendChild(a);
-                    sidebar.appendChild(li);
+                    if (!groupedData[item.category]) {
+                        groupedData[item.category] = [];
+                    }
+                    groupedData[item.category].push(item);
+                });
 
-                    a.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        openTab(item.name, item.url);
+                // Render each category section
+                Object.entries(groupedData).forEach(([category, items]) => {
+                    const categoryHeader = document.createElement('h3');
+                    categoryHeader.textContent = category;
+                    categoryHeader.style.color = '#fff';
+                    categoryHeader.style.margin = '20px 0 10px 0';
+                    categoryHeader.style.padding = '8px 12px';
+                    categoryHeader.style.fontSize = '0.9rem';
+                    categoryHeader.style.fontWeight = '600';
+                    categoryHeader.style.backgroundColor = '#3d3d3d';
+                    categoryHeader.style.borderRadius = '4px';
+                    categoryHeader.style.textTransform = 'uppercase';
+                    categoryHeader.style.letterSpacing = '1px';
+                    sidebar.appendChild(categoryHeader);
+
+                    items.forEach(item => {
+                        const li = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = '#';
+                        a.setAttribute('data-url', item.url);
+                        a.setAttribute('data-name', item.name);
+                        a.textContent = item.name;
+                        li.appendChild(a);
+                        sidebar.appendChild(li);
+
+                        a.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            openTab(item.name, item.url);
+                        });
                     });
                 });
             })
