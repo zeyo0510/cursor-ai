@@ -1,14 +1,15 @@
 [
-  {"category": "Accessibility", "name": "Speech-To-Text","url": "./accessibility-speech-to-text/index.html","icon": "gamepad"},
-  {"category": "Control"      , "name": "Piano",         "url": "./control-piano/index.html",               "icon": "gamepad"},
-  {"category": "Game"         , "name": "Reversi",       "url": "./game-reversi/index.html",                "icon": "gamepad"},
-  {"category": "Game"         , "name": "Snake",         "url": "./game-snake/index.html",                  "icon": "gamepad"},
-  {"category": "Game"         , "name": "Tic-Tac-Toe",   "url": "./game-tictactoe/index.html",              "icon": "gamepad"},
-  {"category": "Home"         , "name": "Dashboard",     "url": "./my-dashboard/index.html",                "icon": "dashboard"},
-  {"category": "Utility"      , "name": "Calculator",    "url": "./utility-calculator/index.html",          "icon": "gamepad"},
-  {"category": "Utility"      , "name": "Calendar",      "url": "./utility-calendar/index.html",            "icon": "gamepad"},
-  {"category": "Utility"      , "name": "Color-Picker",  "url": "./utility-colorpicker/index.html",         "icon": "gamepad"},
-  {"category": "Utility"      , "name": "Digit-Clock",   "url": "./utility-digit-clock/index.html",                 "icon": "gamepad"},
-  {"category": "Chart"        , "name": "Candlestick",   "url": "./chart-candlestick/index.html",           "icon": "gamepad"},
-  {"category": "Utility"      , "name": "Color-Card",    "url": "./utility-color-card/index.html",         "icon": "gamepad"}
+  {"category": "Accessibility", "name": "Speech-To-Text", "url": "./accessibility-speech-to-text/index.html","icon": "gamepad"},
+  {"category": "App"          , "name": "Video-Player"  , "url": "./app-videoplayer/index.html"             ,"icon": "gamepad"},
+  {"category": "Chart"        , "name": "Candlestick"   , "url": "./chart-candlestick/index.html"           ,"icon": "gamepad"},
+  {"category": "Control"      , "name": "Piano"         , "url": "./control-piano/index.html"               ,"icon": "gamepad"},
+  {"category": "Game"         , "name": "Reversi"       , "url": "./game-reversi/index.html"                ,"icon": "gamepad"},
+  {"category": "Game"         , "name": "Snake"         , "url": "./game-snake/index.html"                  ,"icon": "gamepad"},
+  {"category": "Game"         , "name": "Tic-Tac-Toe"   , "url": "./game-tictactoe/index.html"              ,"icon": "gamepad"},
+  {"category": "Home"         , "name": "Dashboard"     , "url": "./my-dashboard/index.html"                ,"icon": "dashboard"},
+  {"category": "Utility"      , "name": "Calculator"    , "url": "./utility-calculator/index.html"          ,"icon": "gamepad"},
+  {"category": "Utility"      , "name": "Calendar"      , "url": "./utility-calendar/index.html"            ,"icon": "gamepad"},
+  {"category": "Utility"      , "name": "Color-Card"    , "url": "./utility-color-card/index.html"          ,"icon": "gamepad"},
+  {"category": "Utility"      , "name": "Color-Picker"  , "url": "./utility-colorpicker/index.html"         ,"icon": "gamepad"},
+  {"category": "Utility"      , "name": "Digit-Clock"   , "url": "./utility-digit-clock/index.html"         ,"icon": "gamepad"}
 ]

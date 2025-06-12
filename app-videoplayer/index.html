@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Video Control Panel</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script type="module" src="./scripts/components/button/button.js"></script>
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .video-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  video
+  {
+    width  : 100%;
+    height : 100%;
+  }
+  
+  .video-controls-panel
+  {
+    position        : absolute;
+    left            : 0;
+    bottom          : 0;
+    width           : 100%;
+    background-color: rgba(000, 000, 0, 0.5);
+    display         : flex;
+    justify-content : center;
+    align-items     : center;
+    padding         : 10px 0;
+    z-index         : 1;
+  }
+
+  .video-controls-button
+  {
+    color: white;
+    margin: 0 10px;
+    padding: 5px 10px;
+    cursor:pointer;
+  }
+
+  .video-controls-label {
+    color: white;
+    margin: 0 10px;
+    font-size: 14px;
+  }
+
+  .seek-bar-container
+  {
+    flex: 1;
+    margin: 0 10px;
+    height: 5px; /* Reduced height */
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2); /* Track background */
+    border-radius: 5px;
+  }
+
+  .seek-bar-track {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+  }
+
+  .seek-bar-fill {
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+
+  .volume-bar-container
+  {
+    flex: 0;
+    margin: 0 10px;
+    height: 5px; /* Reduced height */
+    position: relative;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 0.2); /* Track background */
+    border-radius: 5px;
+  }
+
+  .volume-bar-track {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 5px;
+  }
+
+  .volume-bar-fill {
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 5px;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+
+  input[type="range"] {
+    display: block;
+    /* width: 100%; */
+    height: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    outline: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Hide default controls */
+  video::-webkit-media-controls {
+    display: none !important;
+  }
+
+  .volume-control {
+    display: flex;
+    align-items: center;
+  }
+
+  .volume-control input[type="range"] {
+    width: 70px;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 2;
+    border-radius: 5px;
+    padding: 5px 0;
+    right: 0;
+    bottom: calc(100% + 5px); /* Adjusted position */
+  }
+
+  .dropdown-content button {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="video-container">
+  <video id="videoPlayer" src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4">
+    Your browser does not support the video tag.
+  </video>
+</div>
+<div class="video-controls-panel">
+  <div>
+    <span id="openFileBtn" class="video-controls-button"><i class="fas fa-folder-open"></i></span>
+    <zeyo-button></zeyo-button>
+  </div>
+  <!---->
+  <div>
+    <span id="playPauseBtn" class="video-controls-button"><i class="fas fa-play"></i></span>
+    <span id="stopBtn"      class="video-controls-button"><i class="fas fa-stop"></i></span>
+  </div>
+  <!---->
+    <span class="video-controls-label" id="currentTimeLabel">00:00</span>
+    <div class="seek-bar-container">
+      <div class="seek-bar-track">
+        <div id="seekBarFill" class="seek-bar-fill"></div>
+      </div>
+      <input id="seekBar" type="range" min="0" value="0" style="width:100%" />
+    </div>
+    <span class="video-controls-label" id="totalTimeLabel">00:00</span>
+  <!---->
+    <span id="muteBtn" class="video-controls-button"><i class="fas fa-volume-up"></i></span>
+    <div class="volume-bar-container">
+      <div class="volume-bar-track">
+        <div id="volumeBarFill" class="volume-bar-fill"></div>
+      </div>
+      <input id="volumeRange" type="range" min="0" max="1" step="0.1" value="1">
+    </div>
+  <!---->
+  <div>
+    <div class="dropdown speed-control">
+      <sapn class="speed-btn video-controls-button"><i class="fas fa-tachometer-alt"></i><i class="fas fa-caret-down"></i></sapn>
+      <div class="dropdown-content">
+        <button onclick="setSpeed(0.5)">0.5x</button>
+        <button onclick="setSpeed(1)">1x</button>
+        <button onclick="setSpeed(1.5)">1.5x</button>
+        <button onclick="setSpeed(2)">2x</button>
+      </div>
+    </div>
+  </div>
+  <!---->
+  <div>
+    <span id="fullscreenBtn" class="video-controls-button"><i class="fas fa-expand"></i></span>
+  </div>
+</div>
+
+<script>
+  const video            = document.getElementById('videoPlayer');
+  const openFileBtn      = document.getElementById('openFileBtn');
+  const playPauseBtn     = document.getElementById('playPauseBtn');
+  const stopBtn          = document.getElementById('stopBtn');
+  const currentTimeLabel = document.getElementById('currentTimeLabel');
+  const seekBar          = document.getElementById('seekBar');
+  const seekBarFill      = document.getElementById('seekBarFill');
+  const totalTimeLabel   = document.getElementById('totalTimeLabel');
+  const muteBtn          = document.getElementById('muteBtn');
+  const volumeRange      = document.getElementById('volumeRange');
+  const fullscreenBtn    = document.getElementById('fullscreenBtn');
+  /************************************************/
+  // openFileBtn
+  {
+    openFileBtn.addEventListener('click', openFile);
+  }
+  // playPauseBtn
+  {
+    playPauseBtn.addEventListener('click', playPauseBtn_Click);
+  }
+  // stopBtn
+  {
+    stopBtn.addEventListener('click', stopBtn_Click);
+  }
+  // seekBar
+  {
+    seekBar.addEventListener('input', seekVideo);
+    seekBar.addEventListener('change', seekVideo); // Handle mouseup event
+  }
+  // muteBtn
+  {
+    muteBtn.addEventListener('click', muteBtn_Click);
+  }
+  // fullscreenBtn
+  {
+    fullscreenBtn.addEventListener('click', fullscreenBtn_Click);
+  }
+  // volumeRange
+  {
+    volumeRange.addEventListener('input', adjustVolume);
+  }
+  // video
+  {
+    video.addEventListener('timeupdate', updateCurrentTime);
+  }
+  {
+    video.addEventListener('loadedmetadata', setupSeekBar);
+  }
+  /************************************************/
+  function UpdateUI()
+  {
+    if ( video.paused) playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+    if (!video.paused) playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+
+    const fillWidth = (video.currentTime / video.duration) * 100;
+    seekBarFill.style.width = `${fillWidth}%`;
+
+
+
+    const totalMinutes = Math.floor(video.duration / 60);
+    const totalSeconds = Math.floor(video.duration % 60);
+    totalTimeLabel.textContent = padTime(totalMinutes) + ':' + padTime(totalSeconds);
+
+
+
+    muteBtn.innerHTML = video.muted ? '<i class="fas fa-volume-mute"></i>' : '<i class="fas fa-volume-up"></i>';
+  }
+  /************************************************/
+  function openFile() {
+    const fileInput = document.createElement('input');
+    {
+      fileInput.type   = 'file';
+      fileInput.accept = 'video/*';
+      fileInput.onchange = function(event)
+      {
+        const file = event.target.files[0];
+        const videoURL = URL.createObjectURL(file);
+        video.src = videoURL;
+      };
+      fileInput.click();
+    }
+    UpdateUI();
+  }
+  /************************************************/
+  function playPauseBtn_Click()
+  {
+    if (video.paused)
+    {
+      video.play();
+      UpdateUI();
+      return;
+    }
+    /************************************************/
+    if (!video.paused)
+    {
+      video.pause();
+      UpdateUI();
+      return;
+    }
+  }
+  /************************************************/
+  function stopBtn_Click()
+  {
+    video.pause();
+    video.currentTime = 0;
+    /************************************************/
+    UpdateUI();
+  }
+  /************************************************/
+  function seekVideo()
+  {
+    video.currentTime = seekBar.value;
+    /************************************************/
+    UpdateUI();
+  }
+  /************************************************/
+  function muteBtn_Click() {
+    video.muted = !video.muted;
+    adjustVolume(); // Update volume control position
+    UpdateUI();
+  }
+  /************************************************/
+  function fullscreenBtn_Click()
+  {
+
+    
+    if (!document.fullscreenElement)
+    {
+      document.documentElement.requestFullscreen().catch(err => {
+        alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+      });
+    } else {
+      document.exitFullscreen();
+    }
+  }
+
+
+
+
+
+
+
+
+
+  /************************************************/
+  function updateCurrentTime() {
+    const currentMinutes = Math.floor(video.currentTime / 60);
+    const currentSeconds = Math.floor(video.currentTime % 60);
+    const formattedCurrentTime = padTime(currentMinutes) + ':' + padTime(currentSeconds);
+    currentTimeLabel.textContent = formattedCurrentTime;
+    seekBar.value = video.currentTime;
+    UpdateUI();
+  }
+  /************************************************/
+  function setupSeekBar() {
+    seekBar.max = video.duration;
+    UpdateUI();
+  }
+  /************************************************/
+  function adjustVolume() {
+    video.volume = volumeRange.value;
+    if (video.muted || video.volume === 0) {
+      muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i></i>';
+    } else {
+      muteBtn.innerHTML = '<i class="fas fa-volume-up"></i></i>';
+    }
+  }
+  /************************************************/
+  function padTime(time) {
+    return time < 10 ? '0' + time : time;
+  }
+  /************************************************/
+  function setSpeed(speed)
+  {
+    video.playbackRate = speed;
+  }
+</script>
+</body>
+</html>
