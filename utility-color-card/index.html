@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Card</title>
+    <style>
+        .color-card {
+            position: relative;
+            width: 200px;
+            height: 150px;
+            border-radius: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px;
+            color: white;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+        .remove-btn, .copy-btn {
+            position: absolute;
+            top: 10px;
+            width: 24px;
+            height: 24px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 24px;
+            text-align: center;
+            color: white;
+        }
+        .remove-btn {
+            right: 10px;
+            background: rgba(255, 0, 0, 0.7);
+        }
+        .copy-btn {
+            right: 40px;
+            background: rgba(0, 0, 255, 0.7);
+        }
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <div class="slider-container">
+            <label>R: <input type="range" id="red" min="0" max="255" value="0" oninput="updateValue('red')"> <span id="redValue">0</span></label>
+        </div>
+        <div class="slider-container">
+            <label>G: <input type="range" id="green" min="0" max="255" value="0" oninput="updateValue('green')"> <span id="greenValue">0</span></label>
+        </div>
+        <div class="slider-container">
+            <label>B: <input type="range" id="blue" min="0" max="255" value="0" oninput="updateValue('blue')"> <span id="blueValue">0</span></label>
+        </div>
+        <button onclick="addCustomColorCard()">Add Custom Color Card</button>
+        <button onclick="addRandomColorCard()">Add Random Color Card</button>
+    </div>
+    <div id="container"></div>
+    <script>
+        function updateValue(color) {
+            document.getElementById(`${color}Value`).textContent = document.getElementById(color).value;
+        }
+        
+        function getContrastColor(hex) {
+            const r = parseInt(hex.substr(1, 2), 16);
+            const g = parseInt(hex.substr(3, 2), 16);
+            const b = parseInt(hex.substr(5, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 125 ? "black" : "white";
+        }
+        
+        function addCustomColorCard() {
+            const r = document.getElementById("red").value;
+            const g = document.getElementById("green").value;
+            const b = document.getElementById("blue").value;
+            const color = `rgb(${r}, ${g}, ${b})`;
+            const hexColor = `#${((1 << 24) + (r << 16) + (g << 8) + +b).toString(16).slice(1)}`;
+            createColorCard(hexColor, color);
+        }
+        
+        function addRandomColorCard() {
+            const color = "#" + Math.floor(Math.random()*16777215).toString(16);
+            createColorCard(color, color);
+        }
+        
+        function createColorCard(hexColor, color) {
+            const colorCard = document.createElement("div");
+            colorCard.className = "color-card";
+            colorCard.style.backgroundColor = color;
+            colorCard.style.color = getContrastColor(hexColor);
+            colorCard.textContent = hexColor;
+            
+            const removeBtn = document.createElement("button");
+            removeBtn.className = "remove-btn";
+            removeBtn.textContent = "×";
+            removeBtn.onclick = () => colorCard.remove();
+            
+            const copyBtn = document.createElement("button");
+            copyBtn.className = "copy-btn";
+            copyBtn.textContent = "⧉";
+            copyBtn.onclick = () => {
+                navigator.clipboard.writeText(hexColor);
+                alert("Copied: " + hexColor);
+            };
+            
+            colorCard.appendChild(copyBtn);
+            colorCard.appendChild(removeBtn);
+            document.getElementById("container").appendChild(colorCard);
+        }
+    </script>
+</body>
+</html>
