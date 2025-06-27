@@ -12,37 +12,35 @@ let leftStartTime = 0;
 let rightStartTime = 0;
 
 // DOM元素
-const generateBtn = document.getElementById('generateBtn');
 const arraySizeSelect = document.getElementById('arraySize');
-const speedControl = document.getElementById('speed');
-const startButton = document.getElementById('startBtn');
-const stopButton = document.getElementById('stopBtn');
+const speedControl    = document.getElementById('speed-slider');
+const speedInfo       = document.getElementById("speed-info");
+const generateBtn     = document.getElementById('generate-button');
+const startButton     = document.getElementById('start-button');
+const stopButton      = document.getElementById('stop-button');
 
-const leftArrayContainer = document.getElementById('leftArrayContainer');
-const leftAlgorithmSelect = document.getElementById('leftAlgorithm');
-const leftStopBtn = document.getElementById('leftStopBtn');
-const leftStatusDisplay = document.getElementById('leftStatus');
+const leftArrayContainer     = document.getElementById('leftArrayContainer');
+const leftAlgorithmSelect    = document.getElementById('leftAlgorithm');
+const leftStopBtn            = document.getElementById('leftStopBtn');
+const leftStatusDisplay      = document.getElementById('leftStatus');
 const leftComparisonsDisplay = document.getElementById('leftComparisons');
-const leftSwapsDisplay = document.getElementById('leftSwaps');
-const leftTimeDisplay = document.getElementById('leftTime');
+const leftSwapsDisplay       = document.getElementById('leftSwaps');
+const leftTimeDisplay        = document.getElementById('leftTime');
 
-const rightArrayContainer = document.getElementById('rightArrayContainer');
-const rightAlgorithmSelect = document.getElementById('rightAlgorithm');
-const rightStopBtn = document.getElementById('rightStopBtn');
-const rightStatusDisplay = document.getElementById('rightStatus');
+const rightArrayContainer     = document.getElementById('rightArrayContainer');
+const rightAlgorithmSelect    = document.getElementById('rightAlgorithm');
+const rightStopBtn            = document.getElementById('rightStopBtn');
+const rightStatusDisplay      = document.getElementById('rightStatus');
 const rightComparisonsDisplay = document.getElementById('rightComparisons');
-const rightSwapsDisplay = document.getElementById('rightSwaps');
-const rightTimeDisplay = document.getElementById('rightTime');
-
+const rightSwapsDisplay       = document.getElementById('rightSwaps');
+const rightTimeDisplay        = document.getElementById('rightTime');
 
 // 事件監聽器
 generateBtn.addEventListener('click', generateNewArrays);
+arraySizeSelect.addEventListener('change', generateNewArrays);
+speedControl.addEventListener('input', updateSpeed);
 startButton.addEventListener('click', start);
 stopButton.addEventListener('click', stop);
-leftStopBtn.addEventListener('click', stopLeftSort);
-rightStopBtn.addEventListener('click', stopRightSort);
-speedControl.addEventListener('input', updateSpeed);
-arraySizeSelect.addEventListener('change', generateNewArrays);
 
 // 初始化
 generateNewArrays();
@@ -80,14 +78,14 @@ function renderArray(arr, container) {
   const barWidth = Math.max(3, (container.clientWidth / arr.length) - 2);
   /************************************************/
   arr.forEach((value, index) => {
-      const bar = document.createElement('div');
+      const bar = document.createElement('span');
       bar.className = 'array-bar';
       bar.style.height = `${(value / maxHeight) * 100}%`;
       bar.style.width = `${barWidth}px`;
       
       // 如果陣列不大於30，顯示數值標籤
       if (arr.length < 30) {
-          const label = document.createElement('div');
+          const label = document.createElement('span');
           label.textContent = value;
           label.style.position = 'absolute';
           label.style.top = '-25px';
@@ -122,6 +120,8 @@ function resetStats() {
 function updateSpeed() {
     // 將滑桿值(1-100)映射到延遲範圍(10-500ms)
     delay = 510 - (speedControl.value * 5);
+
+    speedInfo.textContent = `${delay} ms`;
 }
 /************************************************/
 // 排序算法實現

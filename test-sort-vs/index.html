@@ -8,26 +8,24 @@
 </head>
 <body>
 <h1>Sort Versus</h1>
-
-<div class="global-controls">
-  <button id="generateBtn">產生新陣列</button>
+<span class="global-controls">
   <select id="arraySize">
-      <option value="10">小型 (10元素)</option>
-      <option value="20" selected>中型 (20元素)</option>
-      <option value="30">大型 (30元素)</option>
-      <option value="50">超大型 (50元素)</option>
+    <option value="10">小型 (10元素)</option>
+    <option value="20" selected>中型 (20元素)</option>
+    <option value="30">大型 (30元素)</option>
+    <option value="50">超大型 (50元素)</option>
   </select>
-  <div class="speed-control">
-      <span>速度:</span>
-      <input type="range" id="speed" class="speed-slider" min="1" max="100" value="50">
-  </div>
-  <button id="startBtn">開始排序</button>
-  <button id="stopBtn" disabled>停止</button>
-</div>
-
-<div class="container">
-  <div class="panel">
-      <div class="panel-header">
+  <span class="speed-control">
+    <span>速度:</span>
+    <input type="range" id="speed-slider" class="speed-slider" min="1" max="100" value="50"><span id="speed-info">0 ms</span>
+  </span>
+  <button id="generate-button">產生新陣列</button>
+  <button id="start-button">開始</button>
+  <button id="stop-button" disabled>停止</button>
+</span>
+<span class="container">
+  <span class="panel">
+      <span class="panel-header">
           <select class="algorithm-select" id="leftAlgorithm">
               <option value="bubble">泡沫排序 (Bubble Sort)</option>
               <option value="insertion">插入排序 (Insertion Sort)</option>
@@ -37,36 +35,32 @@
               <option value="shell">希爾排序 (Shell Sort)</option>
               <option value="bogo">猴子排序 (Bogo Sort)</option>
           </select>
-      </div>
+      </span>
       
-      <div class="array-container" id="leftArrayContainer"></div>
+      <span class="array-container" id="leftArrayContainer"></span>
       
-      <div class="controls">
-          <button id="leftStopBtn" disabled>停止</button>
-      </div>
-      
-      <div class="stats">
-          <div class="stat-row">
+      <span class="stats">
+          <span class="stat-row">
               <span class="stat-label">狀態:</span>
               <span class="stat-value" id="leftStatus">準備就緒</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">比較次數:</span>
               <span class="stat-value" id="leftComparisons">0</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">交換次數:</span>
               <span class="stat-value" id="leftSwaps">0</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">執行時間:</span>
               <span class="stat-value" id="leftTime">0 ms</span>
-          </div>
-      </div>
-  </div>
+          </span>
+      </span>
+  </span>
   
-  <div class="panel">
-      <div class="panel-header">
+  <span class="panel">
+      <span class="panel-header">
           <select class="algorithm-select" id="rightAlgorithm">
               <option value="bubble">泡沫排序 (Bubble Sort)</option>
               <option value="insertion" selected>插入排序 (Insertion Sort)</option>
@@ -76,34 +70,30 @@
               <option value="shell">希爾排序 (Shell Sort)</option>
               <option value="bogo">猴子排序 (Bogo Sort)</option>
           </select>
-      </div>
+      </span>
       
-      <div class="array-container" id="rightArrayContainer"></div>
+      <span class="array-container" id="rightArrayContainer"></span>
       
-      <div class="controls">
-          <button id="rightStopBtn" disabled>停止</button>
-      </div>
-      
-      <div class="stats">
-          <div class="stat-row">
+      <span class="stats">
+          <span class="stat-row">
               <span class="stat-label">狀態:</span>
               <span class="stat-value" id="rightStatus">準備就緒</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">比較次數:</span>
               <span class="stat-value" id="rightComparisons">0</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">交換次數:</span>
               <span class="stat-value" id="rightSwaps">0</span>
-          </div>
-          <div class="stat-row">
+          </span>
+          <span class="stat-row">
               <span class="stat-label">執行時間:</span>
               <span class="stat-value" id="rightTime">0 ms</span>
-          </div>
-      </div>
-  </div>
-</div>
+          </span>
+      </span>
+  </span>
+</span>
 
 <script src="script.js"></script>
 </body>

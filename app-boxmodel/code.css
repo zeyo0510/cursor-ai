@@ -1,0 +1,44 @@
+/* Generated Dimensions */
+
+.box-dimensions {
+	position:absolute;
+	bottom:100%;
+	right:23em;
+
+	padding:1em;
+	background:#fff;
+	background:rgba(255,255,255,0.8);
+	border:1px solid rgba(240, 240, 240, 0.8);
+	border-right:0;
+	border-bottom:0;
+
+	text-align:right;
+}
+.box-dimensions p {
+	margin:0;
+	font-size:0.8em;
+}
+.box-dimensions h3 {
+	margin-bottom:0.25em;
+	font-size:0.9em;
+}
+
+/* Code */
+.box-code {
+	-moz-box-sizing:border-box;
+	     box-sizing:border-box;
+	position:fixed;
+	bottom:0;
+	left:0;
+
+	width:100%;
+	padding:1em 3em 1.5em;
+
+	background:#eee;
+	background:rgba(240, 240, 240, 0.8);
+
+	z-index:100;
+}
+.box-code h2 {
+	margin-bottom:1em;
+}
