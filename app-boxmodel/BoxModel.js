@@ -32,7 +32,7 @@ class BoxModel extends EventTarget{
   set BoxSizing(value) {
     this.#_boxSizing = value;
     /************************************************/
-    // this.#handleProperttChanged();
+    this.#handleProperttChanged('boxSizing', this.#_boxSizing);
   }
   /************************************************/
   get Width() {

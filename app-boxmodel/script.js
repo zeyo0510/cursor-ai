@@ -1,17 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  let model = new BoxModel();
-
-  const $box         = document.querySelector('.box');
-  const $boxInner    = document.querySelector('.box-inner');
-  const $boxMargin   = document.querySelector('.box-margin');
-  const $boxMarginV  = $boxMargin.querySelector('.box-property-vertical'  );
-  const $boxMarginH  = $boxMargin.querySelector('.box-property-horizontal');
-  const $boxBorder   = document.querySelector('.box-border');
-  const $boxBorderV  = $boxBorder.querySelector('.box-property-vertical'  );
-  const $boxBorderH  = $boxBorder.querySelector('.box-property-horizontal');
-  const $boxPadding  = document.querySelector('.box-padding');
-  const $boxPaddingV = $boxPadding.querySelector('.box-property-vertical'  );
-  const $boxPaddingH = $boxPadding.querySelector('.box-property-horizontal');
+  const test = document.querySelector('box-view');
 
   const $controlContentBox           = document.querySelector("#controlContentBox");
   const $controlBorderBox            = document.querySelector("#controlBorderBox");
@@ -42,26 +30,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const $controlBoxBorderBottom      = document.querySelector("#controlBoxBorderBottom");
   const $controlBoxBorderLeft        = document.querySelector("#controlBoxBorderLeft");
 
-
   function init() {
-    model.addEventListener('propertyChanged', (e) => {
-      console.log(`propertyChanged: { property: ${e.detail.property}, value: ${e.detail.value} }`);
-    });
-    /************************************************/
     getBoxProperties();
-    /************************************************/
-    // $boxMargin
-    $boxMargin.addEventListener('mouseenter', () => {
-      $boxInner.dataset.hoverProperty = $boxMargin.dataset.property;
-    });
-    // $boxBorder
-    $boxBorder.addEventListener('mouseenter', () => {
-      $boxInner.dataset.hoverProperty = $boxBorder.dataset.property;
-    });
-    // $boxPadding
-    $boxPadding.addEventListener('mouseenter', () => {
-      $boxInner.dataset.hoverProperty = $boxPadding.dataset.property;
-    });
     /************************************************/
     // $controlContentBox
     $controlContentBox.addEventListener('input', getBoxProperties);
@@ -122,8 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function getBoxProperties() {
-    model.BoxSizing = $controlBorderBox.checked ? 'border-box' : 'content-box';
-    /************************************************/
     var linkMarginTB  = $controlLinkMarginTopBottom.checked;
     var linkMarginRL  = $controlLinkMarginRightLeft.checked;
     var linkMarginAll = $controlLinkMarginAll.checked;
@@ -174,116 +142,35 @@ document.addEventListener('DOMContentLoaded', function() {
     /************************************************/
     updateModel();
     /************************************************/
-    updateUI();
+   // updateUI();
   }
 
   function updateModel() { // model
-    model.Width         = parseInt($controlBoxWidth        .value, 10);
-    model.Height        = parseInt($controlBoxHeight       .value, 10);
-    model.MarginTop     = parseInt($controlBoxMarginTop    .value, 10);
-    model.MarginRight   = parseInt($controlBoxMarginRight  .value, 10);
-    model.MarginBottom  = parseInt($controlBoxMarginBottom .value, 10);
-    model.MarginLeft    = parseInt($controlBoxMarginLeft   .value, 10);
-    model.PaddingTop    = parseInt($controlBoxPaddingTop   .value, 10);
-    model.PaddingRight  = parseInt($controlBoxPaddingRight .value, 10);
-    model.PaddingBottom = parseInt($controlBoxPaddingBottom.value, 10);
-    model.PaddingLeft   = parseInt($controlBoxPaddingLeft  .value, 10);
-    model.BorderTop     = parseInt($controlBoxBorderTop    .value, 10);
-    model.BorderRight   = parseInt($controlBoxBorderRight  .value, 10);
-    model.BorderBottom  = parseInt($controlBoxBorderBottom .value, 10);
-    model.BorderLeft    = parseInt($controlBoxBorderLeft   .value, 10);
+    test.Model.BoxSizing     = $controlBorderBox.checked ? 'border-box' : 'content-box';
+    test.Model.Width         = parseInt($controlBoxWidth        .value, 10);
+    test.Model.Height        = parseInt($controlBoxHeight       .value, 10);
+    test.Model.MarginTop     = parseInt($controlBoxMarginTop    .value, 10);
+    test.Model.MarginRight   = parseInt($controlBoxMarginRight  .value, 10);
+    test.Model.MarginBottom  = parseInt($controlBoxMarginBottom .value, 10);
+    test.Model.MarginLeft    = parseInt($controlBoxMarginLeft   .value, 10);
+    test.Model.PaddingTop    = parseInt($controlBoxPaddingTop   .value, 10);
+    test.Model.PaddingRight  = parseInt($controlBoxPaddingRight .value, 10);
+    test.Model.PaddingBottom = parseInt($controlBoxPaddingBottom.value, 10);
+    test.Model.PaddingLeft   = parseInt($controlBoxPaddingLeft  .value, 10);
+    test.Model.BorderTop     = parseInt($controlBoxBorderTop    .value, 10);
+    test.Model.BorderRight   = parseInt($controlBoxBorderRight  .value, 10);
+    test.Model.BorderBottom  = parseInt($controlBoxBorderBottom .value, 10);
+    test.Model.BorderLeft    = parseInt($controlBoxBorderLeft   .value, 10);
   }
 
   function updateUI() { // view
-    var boxMarginLeft = model.MarginLeft;
-    var boxMarginTop  = model.MarginTop;
+    test.updateUI();
     /************************************************/
-    var boxMarginLeftRight = model.MarginLeft + model.MarginRight;
-    var boxMarginTopBottom = model.MarginTop  + model.MarginBottom;
+    // document.querySelector('#generatedWidth' ).textContent = boxBorderWidth;
+    // document.querySelector('#generatedHeight').textContent = boxBorderHeight;
     /************************************************/
-    var boxBorderLeft = model.BorderLeft;
-    var boxBorderTop  = model.BorderTop;
-    /************************************************/
-    var boxBorderLeftRight = model.BorderLeft + model.BorderRight;
-    var boxBorderTopBottom = model.BorderTop  + model.BorderBottom;
-    /************************************************/
-    var boxPaddingLeft = model.PaddingLeft;
-    var boxPaddingTop  = model.PaddingTop;
-    /************************************************/
-    var boxPaddingLeftRight = model.PaddingLeft + model.PaddingRight;
-    var boxPaddingTopBottom = model.PaddingTop  + model.PaddingBottom;
-    /************************************************/
-    var boxLeft = boxMarginLeft + boxBorderLeft + boxPaddingLeft;
-    var boxTop  = boxMarginTop  + boxBorderTop  + boxPaddingTop;
-    /************************************************/
-    var boxWidth  = model.BoxSizing === 'border-box' ? model.Width  - boxPaddingLeftRight - boxBorderLeftRight : model.Width;
-    var boxHeight = model.BoxSizing === 'border-box' ? model.Height - boxPaddingTopBottom - boxBorderTopBottom : model.Height;
-    /************************************************/
-    var boxMarginWidth  = boxWidth  + boxMarginLeftRight + boxPaddingLeftRight + boxBorderLeftRight;
-    var boxMarginHeight = boxHeight + boxMarginTopBottom + boxPaddingTopBottom + boxBorderTopBottom;
-    /************************************************/
-    var boxBorderWidth  = boxWidth  + boxPaddingLeftRight + boxBorderLeftRight;
-    var boxBorderHeight = boxHeight + boxPaddingTopBottom + boxBorderTopBottom;
-    /************************************************/
-    var boxPaddingWidth  = boxWidth  + boxPaddingLeftRight;
-    var boxPaddingHeight = boxHeight + boxPaddingTopBottom;
-    /************************************************/
-    if (boxMarginTop   >= 0) boxMarginTop   = boxMarginTop   * -1 - boxPaddingTop  - boxBorderTop;
-    if (boxMarginLeft  >= 0) boxMarginLeft  = boxMarginLeft  * -1 - boxPaddingLeft - boxBorderLeft;
-    if (boxBorderTop   >= 0) boxBorderTop   = boxBorderTop   * -1 - boxPaddingTop;
-    if (boxBorderLeft  >= 0) boxBorderLeft  = boxBorderLeft  * -1 - boxPaddingLeft;
-    if (boxPaddingTop  >= 0) boxPaddingTop  = boxPaddingTop  * -1;
-    if (boxPaddingLeft >= 0) boxPaddingLeft = boxPaddingLeft * -1;
-    /************************************************/
-    $box.style.width  =  `${boxWidth}px`;
-    $box.style.height =  `${boxHeight}px`;
-    $box.style.top    =  `${boxTop}px`;
-    $box.style.left   =  `${boxLeft}px`;
-    /************************************************/
-    $boxInner.style.width  = `${boxWidth}px`;
-    $boxInner.style.height = `${boxHeight}px`;
-    /************************************************/
-    $boxInner.dataset.width  = $controlBoxWidth.value;
-    $boxInner.dataset.height = $controlBoxHeight.value;
-    /************************************************/
-    $boxMargin.style.width  =  `${boxMarginWidth}px`;
-    $boxMargin.style.height =  `${boxMarginHeight}px`;
-    $boxMargin.style.top    =  `${boxMarginTop}px`;
-    $boxMargin.style.left   =  `${boxMarginLeft}px`;
-    /************************************************/
-    $boxMarginV.dataset.top    = model.MarginTop;
-    $boxMarginV.dataset.bottom = model.MarginBottom;
-    $boxMarginH.dataset.left   = model.MarginLeft;
-    $boxMarginH.dataset.right  = model.MarginRight;
-    /************************************************/
-    $boxBorder.style.width  = `${boxBorderWidth}px`;
-    $boxBorder.style.height = `${boxBorderHeight}px`;
-    $boxBorder.style.top    = `${boxBorderTop}px`;
-    $boxBorder.style.left   = `${boxBorderLeft}px`;
-    /************************************************/
-    $boxBorderV.dataset.top    = model.BorderTop;
-    $boxBorderV.dataset.bottom = model.BorderBottom;
-    $boxBorderH.dataset.left   = model.BorderLeft;
-    $boxBorderH.dataset.right  = model.BorderRight;
-    /************************************************/
-    $boxPadding.style.width  =  `${boxPaddingWidth}px`;
-    $boxPadding.style.height =  `${boxPaddingHeight}px`;
-    $boxPadding.style.top    =  `${boxPaddingTop}px`;
-    $boxPadding.style.left   =  `${boxPaddingLeft}px`;
-    /************************************************/
-    $boxPaddingV.dataset.top    = model.PaddingTop;
-    $boxPaddingV.dataset.bottom = model.PaddingBottom;
-    $boxPaddingH.dataset.left   = model.PaddingLeft;
-    $boxPaddingH.dataset.right  = model.PaddingRight;
-    /************************************************/
-    document.querySelector('#generatedWidth' ).textContent = boxBorderWidth;
-    document.querySelector('#generatedHeight').textContent = boxBorderHeight;
-    /************************************************/
-    document.querySelector('#boxCode').innerHTML = model.generateCode();
+    document.querySelector('#boxCode').innerHTML = test.Model.generateCode();
   }
-
-  globalThis.A = globalThis.A || {};
-  globalThis.A.Model = model;
-
+  /************************************************/
   init();
 });
